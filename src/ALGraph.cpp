@@ -6,15 +6,55 @@
     @description:   返回图G中v对应的节点的序号
     @param          G：邻接表表示的图
     @param          v：需要查找的节点v
-    @return: 
+    @return:        如果节点存在，返回其序号，否则返回 NOTFOUND
 */
-int LocateVex(ALGraph G, VexType v) {
+int LocateVex(ALGraph G, VexType v) 
+{
     for (int i = 0; i < G.num_vexs; i++) 
         if (G.vexs[i].data == v) 
             return i;
 
     return NOTFOUND;
 }
+
+/*  
+    @name:          FirstAdjVex
+    @description:   在图G中查找顶点k的第一个节点p
+    @param          G：邻接表表示的图
+    @param          k：当前顶点
+    @param          p：顶点k的第一个节点p
+    @return:        若p存在，返回其位序，否则返回ERROR(-1) 且令p为NULL
+*/
+int FirstAdjVex(ALGraph G, int k, AdjVexNodeP& p) 
+{
+    
+    if (G.vexs == NULL || G.num_vexs < k) return ERROR;
+
+    p = G.vexs[k].firstArc;
+    if (p != NULL) return p->adjvex;
+    else return ERROR;
+}
+
+/*  
+    @name:          NextAdjVex
+    @description:   在图G中查找顶点k的节点p的下一个节点
+    @param          G：邻接表表示的图
+    @param          k：当前顶点
+    @param          p：顶点k链表中的节点p
+    @return:        若p存在，返回其位序，否则返回ERROR(-1) 且令p为NULL
+*/
+int NextAdjVex(ALGraph G, int k, AdjVexNodeP& p) 
+{
+    
+    if (G.vexs == NULL || G.num_vexs < k) return ERROR;
+
+    if (p == NULL) return ERROR;
+
+    p = p->next;
+    if (p != NULL) return p->adjvex;
+    else return ERROR;
+}
+
 
 /*  
     @name:          createDG
@@ -26,7 +66,8 @@ int LocateVex(ALGraph G, VexType v) {
     @param          num_arcs：边数
     @return:        若初始化成功，返回 SUCCESS ，否则返回 ERROR
  */
-Status createDG(ALGraph& G, VexType* vexs, int num_node, ArcInfo* arcs, int num_arcs) {
+Status createDG(ALGraph& G, VexType* vexs, int num_node, ArcInfo* arcs, int num_arcs) 
+{
 
 
     // 写入顶点数和边数
@@ -77,7 +118,8 @@ Status createDG(ALGraph& G, VexType* vexs, int num_node, ArcInfo* arcs, int num_
     @param          G：邻接表表示的有向图
     @return:        若成功输出，返回 SUCCESS ，否则返回 ERROR
  */
-Status DEBUG_printDG(ALGraph& G) {
+Status DEBUG_printDG(ALGraph& G) 
+{
     
     // 若图不合法，返回错误
     if (G.vexs == NULL || G.num_vexs < 0 || G.num_arcs < 0)

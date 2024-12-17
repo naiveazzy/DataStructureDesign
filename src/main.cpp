@@ -1,26 +1,32 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "../headers/ALGraph.h"
+#include "../headers/Stack.h"
 
-int main() {
+int main() 
+{
+    SqStack S;
 
-    VexType vexs[6] = {'A', 'B', 'C', 'D', 'E', 'F'};
-    ArcInfo arcs[12] = {    {'A', 'B'}, {'A', 'D'}, 
-                            {'B', 'A'}, {'B', 'C'}, {'B', 'E'},
-                            {'C', 'B'}, {'C', 'D'}, {'C', 'E'},
-                            {'D', 'A'}, {'D', 'C'},
+    AutoInitStack_Sq(S);
 
-                            {'F', 'B'}, {'F', 'C'}
-                        };
+    srand(time(NULL));
 
-    int num_vexs = 6;
-    int num_arcs = 12;
+    for (int i = 0; i < 10; i++) 
+    {
+        if (Push_Sq(S, i) == ERROR) printf("ERROR!\n");
+    }
 
-    ALGraph G;
-    createDG(G, vexs, num_vexs, arcs, num_arcs);
+    PrintStack_Sq(S);
 
-    DEBUG_printDG(G);
+    int cache;
+    for (int i = 0; i < 5; i++)
+    {
+        Pop_Sq(S, cache);
+    }
+
+    PrintStack_Sq(S);
 
     return 0;
 }
